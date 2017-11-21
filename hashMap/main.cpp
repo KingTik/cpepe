@@ -22,13 +22,13 @@ struct customHashCmp{
     }
 };
 
+template<typename T>
+using newMap = std::map<customHash, T, customHashCmp>;
 
 int main(){
 
-    std::map<customHash, std::string, customHashCmp> month;
 
-    // int hash = std::hash<std::string> {}("a");
-    //customHash a("pepe");
+    newMap<std::string> month;
     month[customHash("pepe")] = "pipi";
 
 

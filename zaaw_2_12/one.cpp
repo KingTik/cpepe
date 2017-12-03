@@ -1,9 +1,10 @@
 #include<iostream>
 #include<vector>
+#include<memory>
 // what happens with inheritance and polimorphism
 // TO DO: function that accepts  pointer to base class but pass derived class with and without virtual
 // try to exeucte functions from both classes and pirint something in copy constructor
-// translate this to smart pointers
+
 class zwierz{
     public:
     virtual void zjedz() noexcept{
@@ -32,7 +33,7 @@ class pies: public zwierz {
 class ryba: public zwierz {
     public:
     virtual void zjedz() noexcept{
-        std::cout << "ryba zjadl\n"; 
+        std::cout << "ryba zjadla\n"; 
     }
     virtual void daj_glos() noexcept{
         std::cout << "bool bool\n"; 
@@ -41,20 +42,21 @@ class ryba: public zwierz {
 };
 
 
-zwierz * fabryka(char in){
-    zwierz * tmp;
+std::shared_ptr<zwierz> fabryka(char in){
+    std::shared_ptr<zwierz> tmp;
+
     switch ( in )  
       {  
          case 'k':  
-            tmp = new kot(); 
+            tmp = std::make_shared<kot>(); 
             break;
 
          case 'p':  
-            tmp = new pies();
+            tmp = std::make_shared<pies>();
             break;
 
          case 'r':  
-            tmp = new ryba();
+            tmp = std::make_shared<ryba>();;
             break;
 
          default:  
@@ -72,8 +74,8 @@ int main(){
     std::cout << "k: kot\np: pies\nr: ryba\n";
     char in;
     
-    zwierz * animal;
-    std::vector<zwierz*> zoo;
+    std::shared_ptr<zwierz> animal;
+    std::vector<std::shared_ptr<zwierz>> zoo;
 
     for (int i =0; i<4; i++){
         std::cin >> in ;
@@ -88,13 +90,13 @@ int main(){
     for( auto j = zoo.begin(); j != zoo.end(); j++ ){
         (*j)->zjedz();
 
-        auto k = dynamic_cast<ryba*>(*j);
+        auto k = std::dynamic_pointer_cast<ryba>(*j);
         if(k!=nullptr){
             k->daj_glos();
         }
 
         
-        delete (*j);
+        
     }
 
     
